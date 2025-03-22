@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { format } from "morgan";
 
 
 const appointmentSchema = new mongoose.Schema({
@@ -11,19 +12,22 @@ const appointmentSchema = new mongoose.Schema({
          required: true 
         },
     phone: { 
-        type: String 
+        type: Number 
     },
     date: { 
         type: Date, 
+        format: Date,
         required: true 
-    },
+    }, // consults should be every 30 min only
     time: { 
-        type: String, 
+        type: Number, 
         required: true 
     },
     serviceType: { 
         type: String, 
-        required: true },
+        enum: ["Consult"],
+        required: true,
+    },
     status: { 
         type: String, 
         enum: ['Scheduled', 'Completed', 'Cancelled'], 
