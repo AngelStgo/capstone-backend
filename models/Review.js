@@ -8,7 +8,8 @@ const reviewSchema = new mongoose.Schema({
     review: {
         type: String,
         required: true
-    },
+    }, 
+    //! create and array of all of the artists from the tattoo page
     artistName: {
         type: String,
         required: true
