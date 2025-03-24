@@ -6,9 +6,13 @@ const artistSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    specialty: {
+       type: String
+    },
     bio: {
         type: String
-    }
+    },
+    images: [String], // image URLs
 });
 
 

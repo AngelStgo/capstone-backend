@@ -45,7 +45,7 @@ artistRouter.post("/", async (req, res) => {
         console.error(error);
         res.status(500).send(error.message);
     }
-});
+});          
 
 
 // DELETE /api/artist/:id delete artist by the id

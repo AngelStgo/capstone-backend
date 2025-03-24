@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(morgan("dev"));
 app.use(helmet()); // for hide and secure 
-app.use(cors());
+app.use(cors()); //connect with our frontend
 
 
 
@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 app.use('/api/health', healthRouter);
 app.use('/api/artist', artistRouter);
 app.use('/api/appointment', appointmentRouter);
-app.use('/api/review', reviewRouter);
+app.use('/api/review', reviewRouter); 
 
 //! MOVE errorHandling to another file and import it here
 // Global error handling
