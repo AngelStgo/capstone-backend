@@ -12,8 +12,8 @@ const artistSchema = new mongoose.Schema({
     bio: {
         type: String
     },
-    images: [String], // image URLs
+    portfolio: [String], // image URLs
 });
 
 
-export default mongoose.model("artist", artistSchema);
+export default mongoose.model("artist", artistSchema); 

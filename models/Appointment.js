@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { format } from "morgan";
+import { format } from "morgan"; 
 
 
 const appointmentSchema = new mongoose.Schema({
@@ -13,6 +13,9 @@ const appointmentSchema = new mongoose.Schema({
         },
     phone: { 
         type: Number 
+    },
+    artist: {
+        type: String
     },
     date: { 
         type: Date, 

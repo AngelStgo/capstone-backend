@@ -34,16 +34,15 @@ appointmentRouter.get("/:id", async (req, res) => {
 
 // POST /api/appointment create a new appointment
 appointmentRouter.post("/", async (req, res) => {
-    
     try {
-        const newAppointment = new Appointment(req.body);
-        await newAppointment.save();
-        res.status(201).json(newAppointment);
+      const { name, email, phone, artist, date, time, serviceType } = req.body;
+      const newAppointment = new Appointment({ name, email, phone, artist, date, time, serviceType });
+      await newAppointment.save();
+      res.status(201).json({ message: "Appointment booked successfully!" });
     } catch (error) {
-        console.error(error);
-        res.status(500).send(error.message);
+      res.status(500).json({ error: "Error booking appointment" });
     }
-});
+  });
 
 
 // DELETE /api/appointment/:id delete appointment by the id
