@@ -23,7 +23,7 @@ const appointmentSchema = new mongoose.Schema({
         required: true 
     }, // consults should be every 30 min only
     time: { 
-        type: Number, 
+        type: String, 
         enum: ["10:00","10:30","11:00","11:30","12:00","12:30"],
         required: true 
     },

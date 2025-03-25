@@ -10,14 +10,14 @@ const reviewSchema = new mongoose.Schema({
         required: true
     }, 
     //! create and array of all of the artists from the tattoo page
-    artistName: {
+    artist: {
         type: String,
         required: true
     },
     rating: { 
-        type: Number, 
-        min: 1, 
-        max: 5, 
+        type: String, 
+        // min: 1, 
+        // max: 5, 
         required: true
      },
     createdAt: { 
