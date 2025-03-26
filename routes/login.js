@@ -26,7 +26,7 @@ LoginRouter.post("/login", async (req, res) => {
 
     // Create JWT token and send as response
     const token = jwt.sign({ id: artist._id, role: artist.role }, process.env.SECRET_KEY, { expiresIn: "1h" });
-    res.json({ token, role: artist.role });
+    res.json({ token, role: artist.role, id:artist._id });
 
   } catch (error) {
     console.error(error);

@@ -1,10 +1,39 @@
 import express from 'express';
 import Artist from '../models/Artist.js';
+import multer from 'multer';
 
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/"); // Save uploaded images in the "uploads" folder
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`); // Unique file name
+    },
+  });
+  
+  const upload = multer({ storage });
 
 export const artistRouter = express.Router();
 
-//! NOTE: verify the notations, plural and singulars
+artistRouter.post("/artist/:id/upload-photo", upload.single("photo"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const artist = await Artist.findById(id);
+  
+      if (!artist) return res.status(404).json({ message: "Artist not found" });
+  
+      // Save image path to the artist's gallery
+      artist.photos.push(`/uploads/${req.file.filename}`);
+      await artist.save();
+  
+      res.json({ message: "Photo uploaded successfully", photoUrl: `/uploads/${req.file.filename}` });
+    } catch (error) {
+      res.status(500).json({ message: "Error uploading photo", error });
+    }
+  });
+
+
 
 // GET /api/artist return all artists
 artistRouter.get('/', async (req, res) => {

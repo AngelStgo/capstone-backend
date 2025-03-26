@@ -45,7 +45,7 @@ AuthRouter.post("/login", async (req, res) => {
       expiresIn: "1h",
   });
 
-  res.json({ token, role: artist.role });
+  res.json({ token, role: artist.role, id:artist._id });
 });
 
 // Get Artist Profile

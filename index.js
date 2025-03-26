@@ -10,8 +10,9 @@ import { healthRouter } from './routes/health.js'
 import { artistRouter } from './routes/artistPage.js';
 import { appointmentRouter } from './routes/appointment.js';
 import { reviewRouter } from './routes/review.js';
-import { AuthRouter } from './routes/auth.js';
+// import { AuthRouter } from './routes/auth.js';
 import { LoginRouter } from './routes/login.js';
+
 
 dotenv.config();
 // console.log(process.env.MONGODB_URI);
@@ -38,6 +39,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(morgan("dev"));
 app.use(helmet()); // for hide and secure 
 app.use(cors()); //connect with our frontend
+app.use("/uploads", express.static("uploads"));
+
 
 
 
@@ -46,14 +49,15 @@ app.get('/', (req, res) => {
     res.render("index");
 })
 
-//! can we discard the api route?!
-// API routes
+//! can we discard the route?!
+// routes
 app.use('/health', healthRouter);
 app.use('/artist', artistRouter);
 app.use('/appointment', appointmentRouter);
 app.use('/review', reviewRouter); 
-app.use('/auth', AuthRouter);
+// app.use('/auth', AuthRouter);
 app.use('/login', LoginRouter);
+
 
 //! MOVE errorHandling to another file and import it here
 // Global error handling
