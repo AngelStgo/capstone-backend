@@ -24,19 +24,28 @@ AuthRouter.post("/signup", async (req, res) => {
 
 // Artist Login
 AuthRouter.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const artist = await Artist.findOne({ email });
-    if (!artist) return res.status(404).json({ error: "Artist not found" });
+  console.log("Received Login Request:", req.body); // Debugging
+  const { email, password } = req.body;
 
-    const isMatch = await bcrypt.compare(password, artist.password);
-    if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
-
-    const token = jwt.sign({ id: artist._id }, SECRET_KEY, { expiresIn: "1h" });
-    res.json({ token, artistId: artist._id });
-  } catch (error) {
-    res.status(500).json({ error: "Error logging in" });
+  if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
   }
+
+  const artist = await Artist.findOne({ email });
+  if (!artist) {
+      return res.status(400).json({ message: "User not found." });
+  }
+
+  const isMatch = await bcrypt.compare(password, artist.password);
+  if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials." });
+  }
+
+  const token = jwt.sign({ id: artist._id, role: artist.role }, process.env.SECRET_KEY, {
+      expiresIn: "1h",
+  });
+
+  res.json({ token, role: artist.role });
 });
 
 // Get Artist Profile

@@ -14,8 +14,13 @@ const artistSchema = new mongoose.Schema({
     },
     password: { // Hashed password
         type: String, 
-        required: true 
-    },
+        required: true ,
+        },
+        role: {
+            type: String,
+            enum: ["artist","admin", "customer"],
+            default: "artist",
+          },
     specialty: {
        type: String
     },

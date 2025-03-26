@@ -11,6 +11,7 @@ import { artistRouter } from './routes/artistPage.js';
 import { appointmentRouter } from './routes/appointment.js';
 import { reviewRouter } from './routes/review.js';
 import { AuthRouter } from './routes/auth.js';
+import { LoginRouter } from './routes/login.js';
 
 dotenv.config();
 // console.log(process.env.MONGODB_URI);
@@ -47,11 +48,12 @@ app.get('/', (req, res) => {
 
 //! can we discard the api route?!
 // API routes
-app.use('/api/health', healthRouter);
-app.use('/api/artist', artistRouter);
-app.use('/api/appointment', appointmentRouter);
-app.use('/api/review', reviewRouter); 
-app.use("/api/auth", AuthRouter);
+app.use('/health', healthRouter);
+app.use('/artist', artistRouter);
+app.use('/appointment', appointmentRouter);
+app.use('/review', reviewRouter); 
+app.use('/auth', AuthRouter);
+app.use('/login', LoginRouter);
 
 //! MOVE errorHandling to another file and import it here
 // Global error handling

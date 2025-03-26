@@ -94,3 +94,26 @@ artistRouter.patch("/:id", async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
+// Add a photo to an artist's portfolio
+artistRouter.put("/:id/add-photo", async (req, res) => {
+    try {
+      const { photo } = req.body;
+      const artist = await Artist.findByIdAndUpdate(req.params.id, { $push: { photos: photo } }, { new: true });
+      res.json(artist);
+    } catch (error) {
+      res.status(500).json({ error: "Error adding photo" });
+    }
+  });
+  
+  // Delete a photo from an artist's portfolio
+  artistRouter.put("/:id/delete-photo", async (req, res) => {
+    try {
+      const { photo } = req.body;
+      const artist = await Artist.findByIdAndUpdate(req.params.id, { $pull: { photos: photo } }, { new: true });
+      res.json(artist);
+    } catch (error) {
+      res.status(500).json({ error: "Error deleting photo" });
+    }
+  });
+  
