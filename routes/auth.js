@@ -5,22 +5,22 @@ import Artist from '../models/Artist.js';
 
 export const AuthRouter = express.Router();
 
-const SECRET_KEY = process.env.SECRET_KEY ; // Change this in production
+const SECRET_KEY = process.env.SECRET_KEY ; 
 
-// Artist Sign Up
-AuthRouter.post("/signup", async (req, res) => {
-  try {
-    const { name, email, password, specialty } = req.body;
-    const existingArtist = await Artist.findOne({ email });
-    if (existingArtist) return res.status(400).json({ error: "Email already exists" });
+//* Artist Sign Up
+// AuthRouter.post("/signup", async (req, res) => {
+//   try {
+//     const { name, email, password, specialty } = req.body;
+//     const existingArtist = await Artist.findOne({ email });
+//     if (existingArtist) return res.status(400).json({ error: "Email already exists" });
 
-    const newArtist = new Artist({ name, email, password, specialty, photos: [] });
-    await newArtist.save();
-    res.status(201).json({ message: "Artist registered successfully!" });
-  } catch (error) {
-    res.status(500).json({ error: "Error signing up" });
-  }
-});
+//     const newArtist = new Artist({ name, email, password, specialty, photos: [] });
+//     await newArtist.save();
+//     res.status(201).json({ message: "Artist registered successfully!" });
+//   } catch (error) {
+//     res.status(500).json({ error: "Error signing up" });
+//   }
+// });
 
 // Artist Login
 AuthRouter.post("/login", async (req, res) => {
