@@ -10,6 +10,7 @@ import { healthRouter } from './routes/health.js'
 import { artistRouter } from './routes/artistPage.js';
 import { appointmentRouter } from './routes/appointment.js';
 import { reviewRouter } from './routes/review.js';
+import { AuthRouter } from './routes/auth.js';
 
 dotenv.config();
 // console.log(process.env.MONGODB_URI);
@@ -50,6 +51,7 @@ app.use('/api/health', healthRouter);
 app.use('/api/artist', artistRouter);
 app.use('/api/appointment', appointmentRouter);
 app.use('/api/review', reviewRouter); 
+app.use("/api/auth", AuthRouter);
 
 //! MOVE errorHandling to another file and import it here
 // Global error handling
