@@ -1,37 +1,53 @@
 import express from 'express';
 import Artist from '../models/Artist.js';
 import multer from 'multer';
+import path from "path";
+import fs from "fs";
 
-// Configure Multer for file uploads
+// dir for new photos
+const uploadDir = path.join("public", "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+
+// Multer storage settings
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/"); // Save uploaded images in the "uploads" folder
-    },
-    filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`); // Unique file name
-    },
-  });
-  
-  const upload = multer({ storage });
+  destination: (req, file, cb) => {
+    cb(null, uploadDir); // Ensure this directory is accessible
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+
+const upload = multer({ storage });
 
 export const artistRouter = express.Router();
 
-artistRouter.post("/artist/:id/upload-photo", upload.single("photo"), async (req, res) => {
-    try {
-      const { id } = req.params;
-      const artist = await Artist.findById(id);
-  
-      if (!artist) return res.status(404).json({ message: "Artist not found" });
-  
-      // Save image path to the artist's gallery
-      artist.photos.push(`/uploads/${req.file.filename}`);
-      await artist.save();
-  
-      res.json({ message: "Photo uploaded successfully", photoUrl: `/uploads/${req.file.filename}` });
-    } catch (error) {
-      res.status(500).json({ message: "Error uploading photo", error });
+// Handle photo upload
+artistRouter.post("/:id/upload-photo", upload.single("photo"), async (req, res) => {
+  try {
+    const artist = await Artist.findById(req.params.id);
+    if (!artist) {
+      return res.status(404).json({ message: "Artist not found" });
     }
-  });
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const photoUrl = `/uploads/${req.file.filename}`;
+    artist.photos.push(photoUrl);
+    await artist.save();
+
+    res.json({ photoUrl });
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 
 
@@ -60,6 +76,20 @@ artistRouter.get("/:id", async (req, res) => {
         console.error(error)
         res.status(500).send(error.message)
     }
+});
+
+// Fetch artist profile
+artistRouter.get("/:id/dashboard", async (req, res) => {
+  try {
+      const artist = await Artist.findById(req.params.id);
+      if (!artist) {
+          return res.status(404).json({ message: "Artist not found" });
+      }
+      res.json(artist);
+  } catch (error) {
+      console.error("Error fetching artist:", error);
+      res.status(500).json({ message: "Server error" });
+  }
 });
 
 

@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 
 export const LoginRouter = express.Router();
 
-LoginRouter.post("/login", async (req, res) => {
+LoginRouter.post("/", async (req, res) =>{
   const { email, password } = req.body;
 
   if (!email || !password) {
