@@ -11,7 +11,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 
-// Multer storage settings
+// storage settings with mutler
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadDir); // Ensure this directory is accessible
